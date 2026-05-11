@@ -1,0 +1,59 @@
+[project]
+name = "r0b0tlabbra1n"
+version = "0.1.0"
+description = "Filesystem-first LLM-Wiki + Obsidian + Hermes Agent memory system"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "r0b0tlab", email = "nicenight551@agentmail.to"}
+]
+requires-python = ">=3.11"
+dependencies = [
+    "pyyaml>=6.0",
+    "click>=8.0",
+]
+
+[project.optional-dependencies]
+index = [
+    "sqlite-fts5",  # built-in via Python's sqlite3
+]
+embeddings = [
+    "openai>=1.0",
+    "numpy>=1.24",
+]
+graph = [
+    "networkx>=3.0",
+]
+all = [
+    "r0b0tlabbra1n[index,embeddings,graph]",
+]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.1",
+]
+
+[project.scripts]
+brain = "r0b0tlabbra1n.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/r0b0tlab/llm-wiki_obsidian_hermes_r0b0tlabbra1n"
+Repository = "https://github.com/r0b0tlab/llm-wiki_obsidian_hermes_r0b0tlabbra1n"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["r0b0tlabbra1n*"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W"]
