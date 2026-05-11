@@ -1,0 +1,20 @@
+- id: q001
+  query: "Hermes operating rules"
+  expected_paths:
+    - _agent/operating-rules.md
+- id: q002
+  query: "secret scanning tokens"
+  expected_paths:
+    - procedures/secret-scanning.md
+- id: q003
+  query: "Markdown source truth rebuildable indexes"
+  expected_paths:
+    - concepts/markdown-source-of-truth.md
+- id: q004
+  query: "retrieval eval MRR top3"
+  expected_paths:
+    - dashboards/retrieval-quality.md
+- id: q005
+  query: "FTS quote escaping append_to_page bypass"
+  expected_paths:
+    - _agent/semantic/failure-patterns.md

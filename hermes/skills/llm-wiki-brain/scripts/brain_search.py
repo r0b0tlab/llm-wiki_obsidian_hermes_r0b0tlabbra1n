@@ -3,6 +3,7 @@
 
 import sys
 from pathlib import Path
+
 from r0b0tlabbra1n.index.sqlite_index import BrainIndex
 from r0b0tlabbra1n.memory.retrieve import retrieve
 

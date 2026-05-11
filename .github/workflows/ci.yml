@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install -e ".[dev]"
+      - run: .venv/bin/ruff check .
+      - run: .venv/bin/python -m pytest -q
+      - run: .venv/bin/brain --help
+      - run: .venv/bin/brain eval --vault tests/fixtures/eval-vault --gold evals/gold_queries.yaml

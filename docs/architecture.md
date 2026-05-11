@@ -2,77 +2,79 @@
 
 ## Design Principles
 
-1. **Markdown is source of truth** — indexes are derived and rebuildable
-2. **Raw sources are immutable** — every synthesized claim has provenance
-3. **Always-loaded memory stays tiny** — retrieval is explicit and budgeted
-4. **Automation must be idempotent** — safe to run via cron
-5. **Humans can browse and correct everything in Obsidian**
-6. **Secrets never enter the vault** — hard-blocked by scanner
+1. Markdown is source of truth — indexes are derived and rebuildable.
+2. Raw sources are immutable evidence and treated as untrusted input.
+3. Always-loaded memory stays tiny; retrieval is explicit and budgeted.
+4. Automation is idempotent and safe to run from cron.
+5. Humans can browse and correct everything in Obsidian.
+6. Secrets never enter the vault through supported write paths.
+7. Memory quality is evaluated, not vibe-checked.
 
-## System Layers
+## Implemented Layers
 
-```
-Layer 4: Hermes Integration
-├── Built-in MEMORY.md/USER.md (L1 HOT pointers)
-├── session_search (FTS5 recall)
-├── Skill: llm-wiki-brain (procedural workflows)
-├── Memory Provider Plugin (future: prefetch/hooks)
-├── Context Engine Plugin (future: lossless compression)
-├── Cron Jobs (heartbeat, audit, session collector)
-└── MCP Server (future: agent-agnostic access)
+```text
+Layer 4: Agent integration
+├── Hermes skill: hermes/skills/llm-wiki-brain
+├── Runnable cron scripts: hermes/cron_scripts/heartbeat.py, weekly_audit.py
+├── Minimal MCP/JSON facade: mcp_server/brain_mcp.py
+└── CLI: brain init/lint/build-index/search/ingest/eval/graph/drift-check
 
-Layer 3: Index Layer
-├── SQLite FTS5 (full-text search)
-├── Link graph (wikilinks → backlinks)
-├── Embeddings (future: optional vector search)
-└── Source hashes (drift detection)
+Layer 3: Rebuildable indexes
+├── SQLite FTS5 standalone table with BM25 ranking
+├── Weighted retrieval: tier + confidence + status + recency
+├── Link graph/backlinks JSON
+├── Source-hash manifest and drift checker
+└── Retrieval eval harness with gold queries
 
-Layer 2: Compiled Wiki Layer
-├── Vault pages with structured frontmatter
-├── Tier: hot → warm → cold → archive
-├── Memory type: episodic → semantic → procedural
-└── Wikilinks between pages
+Layer 2: Compiled Markdown wiki
+├── Structured YAML frontmatter
+├── L1/L2/L3/L4 tier labels
+├── episodic/semantic/procedural memory types
+└── Obsidian wikilinks
 
-Layer 1: Raw Evidence Layer
-├── Immutable source captures
-├── Hermes session transcripts (state.db)
-├── Project docs, web captures, papers
-└── Source manifests and hashes
+Layer 1: Raw evidence
+├── Read-only Hermes state.db ingest
+├── Optional raw transcript export under raw/
+└── raw evidence marked untrusted
 ```
 
 ## Data Flow
 
-```
-Hermes Session → state.db
-                     ↓
-              brain ingest-sessions
-                     ↓
-              Session Summary Pages (L3 COLD)
-                     ↓
-              brain build-index
-                     ↓
-              FTS5 Search Index
-                     ↓
-              brain search → Context Packet (token-budgeted)
-
-Cron Heartbeat → brain lint → brain build-index → dashboard update
-Cron Audit → check staleness → promote/demote tiers → report
+```text
+Hermes state.db --mode=ro--> brain ingest-sessions
+                              ↓
+                       session summaries
+                              ↓
+Markdown vault -----> brain build-index -----> FTS5 + hashes + graph
+                              ↓
+                       brain search/eval/context
 ```
 
-## Memory Tier Lifecycle
+## Retrieval
 
-```
-Created (L3 COLD)
-  → 3+ corroborations → L2 WARM
-  → 5+ retrievals → L1 HOT (compact pointer)
-  → Stale 30+ days → L3 COLD
-  → Stale 90+ days → L4 ARCHIVE
-```
+`brain search` uses FTS5 BM25 rank and then applies deterministic boosts:
 
-## Security Model
+- warm/hot tier boost
+- confidence boost
+- active/stale status adjustment
+- recent update boost
 
-- **Secret scanner**: runs on every `safe_write_page()` call
-- **Patterns detected**: HF tokens, OpenAI keys, GitHub tokens, JWT, private keys, env secrets
-- **Prompt injection guard**: raw sources treated as untrusted; compiled pages state facts, not commands
-- **Write controls**: raw files immutable; compiled pages atomic; every write logged
-- **Read-only session ingest**: `state.db` opened with `mode=ro`; never writes to source DB
+`brain search --context` returns a bounded `<memory-context>` packet for agent prompts.
+
+## Drift and Graph
+
+`brain build-index` writes `_meta/source-hashes.json`, `_meta/link-graph.json`, and `_meta/backlinks.json`. `brain drift-check` compares the current vault to the last manifest.
+
+## Security
+
+- Secret scanner blocks supported tokens and `.env`-style secret assignments.
+- `append_to_page` and `safe_write_page` scan before writes.
+- Lint scans existing Markdown for secrets.
+- Raw transcripts are optional and scanned before export.
+- Wikilink traversal outside the vault is not resolved.
+
+## Roadmap
+
+- Optional vector embeddings for semantic search.
+- Richer temporal graph beyond local wikilink graph.
+- LLM-assisted extraction as an optional backend, not a required dependency.

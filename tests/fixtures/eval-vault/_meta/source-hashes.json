@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-05-11T23:27:11.290675+00:00",
+  "hashes": {
+    "START_HERE.md": "1b4d02f97fe8caa01d3a46516e8957c84c5e28c03d8966d6dae31427a24f80b2",
+    "_agent/operating-rules.md": "387177b65254ad21c60b2414d2f6edbfea7a085bfa6dfd383438ff24b1f347ea",
+    "_agent/semantic/failure-patterns.md": "2555fb747851758f5392c362719933a8f2e6c3a24c446288ef9ab31b4831c006",
+    "_agent/semantic/project-status.md": "600423c1d84c2252fc39af4f2406fe9872d4b916144854b08a241dcd02d53e10",
+    "concepts/markdown-source-of-truth.md": "86fc065649b93de3e2ac239bc33e6fd23ea5a328848ffe45078aee1fccc0d717",
+    "concepts/obsidian-links.md": "8c122655f548744c8bb0a87e4039ea7b8d6881bc56b7a92761b764cf966f6b33",
+    "dashboards/retrieval-quality.md": "dfd925e35092fa5708662444aa8ab6337e0da695ef929e1f3ca50bca77054a1d",
+    "procedures/secret-scanning.md": "b3da79710ccab4b9d756be9ece50888ccd4271db0421f61c45cab4233363f580",
+    "projects/vllm-gb10.md": "93d56126859b829c022110cb9686f280c6ac3436ed5eec8d26e19960425ac0b8",
+    "sessions/summaries/session-memory.md": "f0d9be43c5a8adf3396dfe11c021e49748712e01c2165e468f69889e488795c4"
+  },
+  "page_count": 10
+}

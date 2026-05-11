@@ -13,7 +13,7 @@ def test_lint_clean_vault():
         init_vault(vault)
 
         issues = lint_vault(vault)
-        # New vault should have minimal issues (only orphans for default pages without incoming links)
+        # New vault should have no errors; orphan INFO messages are acceptable.
         errors = [i for i in issues if i["level"] == "ERROR"]
         assert len(errors) == 0
 

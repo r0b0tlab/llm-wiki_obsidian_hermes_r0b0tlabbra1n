@@ -26,8 +26,10 @@ _SECRET_PATTERNS: list[tuple[str, str]] = [
     (r"AKIA[0-9A-Z]{16}", "AWS access key"),
     (r"aws_secret_access_key\s*=\s*[\"']?[a-zA-Z0-9+/]{20,}", "AWS secret key"),
     # Generic API key assignments
-    (r"(?:api[_-]?key|apikey|secret|token|password)\s*[:=]\s*[\"'][a-zA-Z0-9\-_\.]{16,}[\"']",
-     "API key/secret assignment"),
+    (
+        r"(?:api[_-]?key|apikey|secret|token|password)\s*[:=]\s*[\"'][a-zA-Z0-9\-_\.]{16,}[\"']",
+        "API key/secret assignment",
+    ),
     # AgentMail tokens
     (r"am_[a-zA-Z0-9]{20,}", "AgentMail token (am_...)"),
     # Google API keys
@@ -61,12 +63,26 @@ def scan_for_secrets(content: str, source: str = "<unknown>") -> list[str]:
         key = match.group(1)
         value = match.group(2)
         # Skip known non-secret env vars
-        if key in ("PATH", "HOME", "USER", "SHELL", "LANG", "PWD", "TERM",
-                    "DISPLAY", "EDITOR", "PAGER", "HOSTNAME", "LOGNAME"):
+        if key in (
+            "PATH",
+            "HOME",
+            "USER",
+            "SHELL",
+            "LANG",
+            "PWD",
+            "TERM",
+            "DISPLAY",
+            "EDITOR",
+            "PAGER",
+            "HOSTNAME",
+            "LOGNAME",
+        ):
             continue
         # Flag potential secret env values
-        if any(secret_word in key.upper() for secret_word in
-               ("KEY", "TOKEN", "SECRET", "PASSWORD", "PASS", "AUTH", "CREDENTIAL")):
+        if any(
+            secret_word in key.upper()
+            for secret_word in ("KEY", "TOKEN", "SECRET", "PASSWORD", "PASS", "AUTH", "CREDENTIAL")
+        ):
             issues.append(f"Env secret variable: {key} in {source}")
 
     return issues

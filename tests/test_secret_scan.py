@@ -3,7 +3,7 @@
 import tempfile
 from pathlib import Path
 
-from r0b0tlabbra1n.security.secret_scan import is_safe, scan_for_secrets, scan_file
+from r0b0tlabbra1n.security.secret_scan import is_safe, scan_file, scan_for_secrets
 
 
 def test_scan_clean_content():
@@ -25,7 +25,9 @@ def test_scan_openai_key():
 
 
 def test_scan_private_key():
-    issues = scan_for_secrets("-----BEGIN RSA PRIVATE KEY-----\nsomething\n-----END RSA PRIVATE KEY-----")
+    issues = scan_for_secrets(
+        "-----BEGIN RSA PRIVATE KEY-----\nsomething\n-----END RSA PRIVATE KEY-----"
+    )
     assert len(issues) >= 1
     assert "Private key" in issues[0]
 

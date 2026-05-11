@@ -1,136 +1,120 @@
 # llm-wiki_obsidian_hermes_r0b0tlabbra1n
 
-> The best filesystem-first LLM-Wiki + Obsidian + Hermes Agent memory system.
+> A filesystem-first LLM-Wiki + Obsidian + Hermes Agent memory system.
 > Markdown is source of truth. Indexes are rebuildable acceleration layers.
-> Built for Hermes, portable to any agent.
-
-**Credit:** @mr-r0b0t on X — r0b0tlab
-
----
+> Built by @mr-r0b0t on X — r0b0tlab.
 
 ## What This Is
 
-A rigorous, reusable, first-principles agent memory system. Inspired by:
+r0b0tlabbra1n is a local, auditable agent-memory system for Hermes and other CLI agents. It keeps durable knowledge in human-editable Markdown, uses Obsidian wikilinks for navigation, and builds deterministic local indexes for retrieval, graph/backlinks, source-hash drift checks, and evaluation.
 
-- **Karpathy's LLM Wiki** — knowledge as a maintained, compounding artifact
-- **GBrain** (garrytan/gbrain) — Markdown source of truth + database retrieval
-- **MemGPT/Letta** — OS-tier memory management (hot/warm/cold/archive)
-- **Zep/Graphiti** — temporal knowledge graphs with provenance
+It is designed to compound knowledge better than normal chat history or one-shot RAG:
 
-## Why Markdown/Obsidian Is Source of Truth
+- Humans can read, edit, diff, and correct everything.
+- Agents can lint, search, ingest sessions, and maintain project state.
+- Indexes are disposable: rebuild from Markdown at any time.
+- Security checks block secrets from entering the vault write path.
+- Retrieval quality is measured with a gold-query eval harness.
 
-- Human-auditable: you can read, edit, and correct everything in Obsidian
-- Agent-editable: structured frontmatter + wikilinks are deterministic
-- Git-friendly: diffs, history, blame, rollback
-- Index-independent: all indexes can be rebuilt from .md files alone
-- Portable: no vendor lock-in, works with any LLM/agent platform
+## Feature Status
 
-## How It Differs From RAG
-
-| RAG | LLM-Wiki-Obsidian-Hermes |
-|-----|--------------------------|
-| Discovers knowledge every query | Compiles knowledge once, maintains over time |
-| Stale embeddings silently drift | Source hashes detect drift instantly |
-| Agents can't self-correct | Agents edit structured pages with review |
-| Opaque vector soup | Transparent, grep-able filesystem |
-| One-shot retrieval | Multi-tier: hot/warm/cold/archive |
-
-## Architecture
-
-```text
-Hermes Agent
-  |
-  +-- built-in MEMORY.md / USER.md      (tiny hot memory + pointers)
-  +-- session_search                     (FTS5 recall of prior sessions)
-  +-- memory provider plugin             (optional prefetch/retrieval)
-  +-- skill pack                         (manual agent workflows)
-  +-- cron jobs                          (collector, heartbeat, audit)
-  +-- MCP tools                          (query brain from any agent)
-  |
-  v
-r0b0tlabbra1n
-  |
-  +-- vault/                             (Markdown/Obsidian source of truth)
-  +-- raw/                               (immutable source captures)
-  +-- indexes/                           (SQLite FTS, embeddings, graph)
-  +-- scripts/                           (ingest, lint, search, eval)
-  +-- plugins/hermes_memory/             (Hermes provider plugin)
-  +-- skills/                            (Hermes skill installable by user)
-  +-- mcp_server/                        (optional MCP brain server)
-  +-- evals/                             (benchmarks and gold sets)
-```
-
-## Memory Tiers
-
-- **L1 HOT (<= few KB):** Hermes built-in MEMORY.md + USER.md — tiny pointer layer
-- **L2 WARM:** START_HERE, dashboards, project status, operating rules
-- **L3 COLD:** session summaries, raw evidence, detailed project pages
-- **L4 ARCHIVE:** immutable raw captures, old logs, superseded pages
+| Capability | Status | Command / Path |
+|---|---|---|
+| Vault initialization | Implemented | `brain init --vault ~/my-brain` |
+| Frontmatter, wikilink, secret linting | Implemented | `brain lint --vault ~/my-brain` |
+| SQLite FTS5 search with BM25 ranking | Implemented | `brain build-index`, `brain search` |
+| Weighted, tier-aware context packets | Implemented | `brain search "query" --context` |
+| Source hash manifest and drift detection | Implemented | `brain drift-check` |
+| Link graph and backlinks | Implemented | `brain graph`, `brain backlinks` |
+| Retrieval eval harness | Implemented | `brain eval --gold evals/gold_queries.yaml` |
+| Read-only Hermes session ingest | Implemented | `brain ingest-sessions --hermes-home ~/.hermes` |
+| Promotion candidate generation | Implemented | `brain promote-candidates` |
+| Hermes skill pack | Implemented | `hermes/skills/llm-wiki-brain/` |
+| Runnable heartbeat/audit scripts | Implemented | `hermes/cron_scripts/` |
+| Minimal MCP/agent JSON facade | Implemented | `mcp_server/brain_mcp.py` |
+| Optional vector embeddings | Roadmap | not required for local deterministic v0.1 |
+| Advanced temporal graph DB | Roadmap | current graph is local JSON wikilink graph |
 
 ## Quickstart
 
 ```bash
-# Clone
-git clone https://github.com/r0b0tlab/llm-wiki_obsidian_hermes_r0b0tlabbra1n ~/brain
-cd ~/brain
+git clone https://github.com/r0b0tlab/llm-wiki_obsidian_hermes_r0b0tlabbra1n ~/brain-code
+cd ~/brain-code
+python3 -m venv .venv
+.venv/bin/pip install -e ".[dev]"
 
-# Install
-pip install -e .
-
-# Initialize a brain vault
-brain init --vault ~/my-brain
-
-# Lint
-brain lint --vault ~/my-brain
-
-# Search
-brain search "how to deploy vLLM" --vault ~/my-brain
+.venv/bin/brain init --vault ~/my-brain
+.venv/bin/brain lint --vault ~/my-brain
+.venv/bin/brain build-index --vault ~/my-brain
+.venv/bin/brain search "how to deploy vLLM" --vault ~/my-brain --context
 ```
 
-## Hermes Integration Modes
+## Core CLI
 
-| Mode | Description | Setup |
-|------|-------------|-------|
-| **A: Filesystem-only** | Vault + Python scripts + Hermes skill | `hermes skills install llm-wiki-brain` |
-| **B: Indexed local** | SQLite FTS5 + link graph + local embeddings | Mode A + `brain index build` |
-| **C: Hermes-native** | Memory provider plugin + cron jobs + MCP | Mode B + plugin install |
-| **D: World-class** | Temporal graph + hybrid retrieval + eval harness | All of the above |
+```bash
+brain init --vault ~/my-brain
+brain lint --vault ~/my-brain
+brain build-index --vault ~/my-brain
+brain search "Hermes memory" --vault ~/my-brain --json
+brain search "Hermes memory" --vault ~/my-brain --context --budget 2000
+brain ingest-sessions --hermes-home ~/.hermes --vault ~/my-brain
+brain graph --vault ~/my-brain --json
+brain backlinks _agent/operating-rules --vault ~/my-brain
+brain drift-check --vault ~/my-brain
+brain eval --vault tests/fixtures/eval-vault --gold evals/gold_queries.yaml
+brain promote-candidates --vault ~/my-brain --json
+```
 
-## Four Memory Types
+## Architecture
 
-- **Working:** current prompt/history/tool outputs (Hermes runtime)
-- **Episodic:** sessions, events, decisions, failures (sessions/, _agent/episodic/)
-- **Semantic:** stable facts, project status, concepts (_agent/semantic/, projects/)
-- **Procedural:** skills, workflows, playbooks (skills/, procedures/)
+```text
+Hermes / CLI agents
+  ├─ built-in compact memory pointers
+  ├─ llm-wiki-brain skill
+  ├─ cron heartbeat/audit scripts
+  └─ optional MCP/JSON facade
+        ↓
+r0b0tlabbra1n package
+  ├─ vault initialization and safe writes
+  ├─ lint: frontmatter + wikilinks + secrets
+  ├─ read-only Hermes session ingest
+  ├─ retrieval: FTS5 BM25 + tier/confidence/recency weighting
+  ├─ eval harness: top-1, top-3, MRR
+  ├─ graph index: wikilinks + backlinks JSON
+  └─ source hash manifest + drift check
+        ↓
+Markdown / Obsidian vault
+  ├─ _agent/ semantic and episodic memory
+  ├─ projects/, sessions/, entities/, concepts/, procedures/
+  ├─ raw/ untrusted source evidence
+  └─ _meta/ rebuildable indexes and manifests
+```
 
-## Key Design Principles
+## Security Model
 
-1. Markdown is the source of truth — indexes are derived and rebuildable
-2. Raw sources are immutable — every synthesized claim has provenance
-3. Always-loaded memory stays tiny — retrieval is explicit and budgeted
-4. Automation must be idempotent — a fresh agent must orient in < 2 minutes
-5. Humans can browse and correct everything in Obsidian
-6. Secrets never enter the vault
-7. No one-off event becomes an operating rule without evidence
-8. Agent memory must be evaluated, not vibe-checked
+- Secret scanner covers common HF, OpenAI, Anthropic, GitHub, JWT, AWS, AgentMail, Google, and env assignment patterns.
+- `safe_write_page` and `append_to_page` scan content before writing.
+- Session ingest opens Hermes `state.db` with SQLite `mode=ro`.
+- Raw transcripts are treated as untrusted evidence and excluded from default indexing.
+- Wikilink resolution refuses traversal outside the vault.
 
-## Relationship to Inspirations
+## Quality Gates
 
-- **LLM Wiki (Karpathy):** the vault is the compiled knowledge layer; agents maintain it
-- **GBrain (garrytan):** Markdown truth + retrieval indexes; hybrid search; evaluation
-- **MemGPT/Letta:** tier-based memory with explicit promotion/demotion
-- **Zep/Graphiti:** temporal facts with validity windows and provenance
+```bash
+bash scripts/quality_gate.sh
+.venv/bin/ruff check .
+.venv/bin/python -m pytest -q
+.venv/bin/brain eval --vault tests/fixtures/eval-vault --gold evals/gold_queries.yaml
+```
 
-## License
-
-MIT
+CI runs ruff, pytest, CLI smoke, and retrieval eval smoke on Python 3.11 and 3.12.
 
 ## Credits
 
 @mr-r0b0t on X — r0b0tlab
 
-Inspired by:
-- [Karpathy LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
-- [garrytan/gbrain](https://github.com/garrytan/gbrain)
-- [MemGPT](https://arxiv.org/abs/2310.08560)
-- [Generative Agents](https://arxiv.org/abs/2304.03442)
+Inspired by Karpathy's LLM Wiki, garrytan/gbrain, MemGPT/Letta, Zep/Graphiti, and Obsidian-first personal knowledge management.
+
+## License
+
+MIT

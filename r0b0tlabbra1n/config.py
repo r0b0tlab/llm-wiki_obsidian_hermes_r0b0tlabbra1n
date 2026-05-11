@@ -2,10 +2,8 @@
 
 from __future__ import annotations
 
-import os
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
 
 @dataclass
@@ -66,6 +64,7 @@ def load_config(path: Path | None = None) -> BrainConfig:
     config_path = path / "_meta" / "config.yaml"
     if config_path.exists():
         import yaml
+
         data = yaml.safe_load(config_path.read_text()) or {}
         return BrainConfig(**{k: v for k, v in data.items() if hasattr(BrainConfig, k)})
 

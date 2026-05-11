@@ -1,6 +1,5 @@
 """Tests for Hermes session ingestion."""
 
-import json
 import sqlite3
 import tempfile
 from pathlib import Path
@@ -38,9 +37,8 @@ def _create_test_state_db(db_path: Path, num_sessions: int = 3) -> list[str]:
         sid = f"test-session-{i:04d}"
         session_ids.append(sid)
         conn.execute(
-            "INSERT INTO sessions (id, created_at, model_name, provider_name) "
-            "VALUES (?, ?, ?, ?)",
-            (sid, f"2026-05-{10+i:02d}T12:00:00", "test-model", "test-provider"),
+            "INSERT INTO sessions (id, created_at, model_name, provider_name) VALUES (?, ?, ?, ?)",
+            (sid, f"2026-05-{10 + i:02d}T12:00:00", "test-model", "test-provider"),
         )
         for j in range(3):
             conn.execute(
@@ -63,7 +61,7 @@ def test_ingest_sessions():
 
         # Create test state.db
         db_path = tmp_path / "state.db"
-        session_ids = _create_test_state_db(db_path, num_sessions=3)
+        _create_test_state_db(db_path, num_sessions=3)
 
         # Create vault
         vault = tmp_path / "test-brain"

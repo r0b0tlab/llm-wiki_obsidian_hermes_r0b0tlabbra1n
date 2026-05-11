@@ -32,9 +32,9 @@ class PageStatus(str, Enum):
 
 
 class MemoryTier(str, Enum):
-    L1_HOT = "hot"       # Hermes built-in MEMORY.md (~2KB)
-    L2_WARM = "warm"     # dashboards, project status
-    L3_COLD = "cold"     # session summaries, detailed pages
+    L1_HOT = "hot"  # Hermes built-in MEMORY.md (~2KB)
+    L2_WARM = "warm"  # dashboards, project status
+    L3_COLD = "cold"  # session summaries, detailed pages
     L4_ARCHIVE = "archive"  # immutable raw, old logs
 
 
@@ -54,6 +54,7 @@ class Confidence(str, Enum):
 @dataclass
 class PageFrontmatter:
     """Structured frontmatter for a vault page."""
+
     title: str
     created: str = field(default_factory=lambda: datetime.now().isoformat())
     updated: str = field(default_factory=lambda: datetime.now().isoformat())
@@ -67,8 +68,8 @@ class PageFrontmatter:
     sources: list[str] = field(default_factory=list)
     superseded_by: list[str] = field(default_factory=list)
     review_status: str = "unreviewed"
-    provenance: str = ""       # How this page was created (manual/agent/cron/ingest)
-    source_hash: str = ""      # SHA of raw source if derived
+    provenance: str = ""  # How this page was created (manual/agent/cron/ingest)
+    source_hash: str = ""  # SHA of raw source if derived
     extra: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -109,6 +110,7 @@ class PageFrontmatter:
 @dataclass
 class MemoryItem:
     """A discrete memory item for promotion/demotion between tiers."""
+
     content: str
     memory_type: MemoryType
     tier: MemoryTier
@@ -122,6 +124,7 @@ class MemoryItem:
 @dataclass
 class RetrievalResult:
     """A result from a memory retrieval query."""
+
     path: str
     snippet: str
     score: float = 0.0
@@ -134,6 +137,7 @@ class RetrievalResult:
 @dataclass
 class ContextPacket:
     """A bounded context packet for injection into an agent prompt."""
+
     results: list[RetrievalResult]
     token_budget: int
     tokens_used: int

@@ -4,10 +4,9 @@ import tempfile
 from pathlib import Path
 
 from r0b0tlabbra1n.vault.links import (
+    build_link_graph,
     extract_wikilinks,
     find_broken_links,
-    find_orphans,
-    build_link_graph,
     get_backlinks,
 )
 
