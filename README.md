@@ -107,7 +107,14 @@ bash scripts/quality_gate.sh
 .venv/bin/brain eval --vault tests/fixtures/eval-vault --gold evals/gold_queries.yaml
 ```
 
-CI runs ruff, pytest, CLI smoke, and retrieval eval smoke on Python 3.11 and 3.12.
+The bundled retrieval eval contains 65 gold queries across projects, procedures, concepts, entities, sessions, and agent semantic memory. CI runs ruff, pytest, CLI smoke, and retrieval eval smoke on Python 3.11 and 3.12.
+
+## More Documentation
+
+- `docs/tutorial.md` — end-to-end walkthrough.
+- `docs/operator-guide.md` — install, daily operation, MCP, troubleshooting, release gates.
+- `docs/release-checklist.md` — publishing checklist.
+- `mcp_server/README.md` and `mcp_server/manifest.json` — MCP-style JSON-RPC facade.
 
 ## Credits
 

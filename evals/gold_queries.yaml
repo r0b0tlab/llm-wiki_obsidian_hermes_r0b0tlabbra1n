@@ -18,3 +18,243 @@
   query: "FTS quote escaping append_to_page bypass"
   expected_paths:
     - _agent/semantic/failure-patterns.md
+- id: q101
+  query: "r0eval01 GB10 quality gate provenance"
+  expected_paths:
+    - projects/eval-01-topic.md
+- id: q102
+  query: "r0eval02 workflow quality gate provenance"
+  expected_paths:
+    - procedures/eval-02-topic.md
+- id: q103
+  query: "r0eval03 memory quality gate provenance"
+  expected_paths:
+    - concepts/eval-03-topic.md
+- id: q104
+  query: "r0eval04 tool quality gate provenance"
+  expected_paths:
+    - entities/eval-04-topic.md
+- id: q105
+  query: "r0eval05 decision quality gate provenance"
+  expected_paths:
+    - sessions/summaries/eval-05-topic.md
+- id: q106
+  query: "r0eval06 operating quality gate provenance"
+  expected_paths:
+    - _agent/semantic/eval-06-topic.md
+- id: q107
+  query: "r0eval07 GB10 quality gate provenance"
+  expected_paths:
+    - projects/eval-07-topic.md
+- id: q108
+  query: "r0eval08 workflow quality gate provenance"
+  expected_paths:
+    - procedures/eval-08-topic.md
+- id: q109
+  query: "r0eval09 memory quality gate provenance"
+  expected_paths:
+    - concepts/eval-09-topic.md
+- id: q110
+  query: "r0eval10 tool quality gate provenance"
+  expected_paths:
+    - entities/eval-10-topic.md
+- id: q111
+  query: "r0eval11 decision quality gate provenance"
+  expected_paths:
+    - sessions/summaries/eval-11-topic.md
+- id: q112
+  query: "r0eval12 operating quality gate provenance"
+  expected_paths:
+    - _agent/semantic/eval-12-topic.md
+- id: q113
+  query: "r0eval13 GB10 quality gate provenance"
+  expected_paths:
+    - projects/eval-13-topic.md
+- id: q114
+  query: "r0eval14 workflow quality gate provenance"
+  expected_paths:
+    - procedures/eval-14-topic.md
+- id: q115
+  query: "r0eval15 memory quality gate provenance"
+  expected_paths:
+    - concepts/eval-15-topic.md
+- id: q116
+  query: "r0eval16 tool quality gate provenance"
+  expected_paths:
+    - entities/eval-16-topic.md
+- id: q117
+  query: "r0eval17 decision quality gate provenance"
+  expected_paths:
+    - sessions/summaries/eval-17-topic.md
+- id: q118
+  query: "r0eval18 operating quality gate provenance"
+  expected_paths:
+    - _agent/semantic/eval-18-topic.md
+- id: q119
+  query: "r0eval19 GB10 quality gate provenance"
+  expected_paths:
+    - projects/eval-19-topic.md
+- id: q120
+  query: "r0eval20 workflow quality gate provenance"
+  expected_paths:
+    - procedures/eval-20-topic.md
+- id: q121
+  query: "r0eval21 memory quality gate provenance"
+  expected_paths:
+    - concepts/eval-21-topic.md
+- id: q122
+  query: "r0eval22 tool quality gate provenance"
+  expected_paths:
+    - entities/eval-22-topic.md
+- id: q123
+  query: "r0eval23 decision quality gate provenance"
+  expected_paths:
+    - sessions/summaries/eval-23-topic.md
+- id: q124
+  query: "r0eval24 operating quality gate provenance"
+  expected_paths:
+    - _agent/semantic/eval-24-topic.md
+- id: q125
+  query: "r0eval25 GB10 quality gate provenance"
+  expected_paths:
+    - projects/eval-25-topic.md
+- id: q126
+  query: "r0eval26 workflow quality gate provenance"
+  expected_paths:
+    - procedures/eval-26-topic.md
+- id: q127
+  query: "r0eval27 memory quality gate provenance"
+  expected_paths:
+    - concepts/eval-27-topic.md
+- id: q128
+  query: "r0eval28 tool quality gate provenance"
+  expected_paths:
+    - entities/eval-28-topic.md
+- id: q129
+  query: "r0eval29 decision quality gate provenance"
+  expected_paths:
+    - sessions/summaries/eval-29-topic.md
+- id: q130
+  query: "r0eval30 operating quality gate provenance"
+  expected_paths:
+    - _agent/semantic/eval-30-topic.md
+- id: q131
+  query: "r0eval31 GB10 quality gate provenance"
+  expected_paths:
+    - projects/eval-31-topic.md
+- id: q132
+  query: "r0eval32 workflow quality gate provenance"
+  expected_paths:
+    - procedures/eval-32-topic.md
+- id: q133
+  query: "r0eval33 memory quality gate provenance"
+  expected_paths:
+    - concepts/eval-33-topic.md
+- id: q134
+  query: "r0eval34 tool quality gate provenance"
+  expected_paths:
+    - entities/eval-34-topic.md
+- id: q135
+  query: "r0eval35 decision quality gate provenance"
+  expected_paths:
+    - sessions/summaries/eval-35-topic.md
+- id: q136
+  query: "r0eval36 operating quality gate provenance"
+  expected_paths:
+    - _agent/semantic/eval-36-topic.md
+- id: q137
+  query: "r0eval37 GB10 quality gate provenance"
+  expected_paths:
+    - projects/eval-37-topic.md
+- id: q138
+  query: "r0eval38 workflow quality gate provenance"
+  expected_paths:
+    - procedures/eval-38-topic.md
+- id: q139
+  query: "r0eval39 memory quality gate provenance"
+  expected_paths:
+    - concepts/eval-39-topic.md
+- id: q140
+  query: "r0eval40 tool quality gate provenance"
+  expected_paths:
+    - entities/eval-40-topic.md
+- id: q141
+  query: "r0eval41 decision quality gate provenance"
+  expected_paths:
+    - sessions/summaries/eval-41-topic.md
+- id: q142
+  query: "r0eval42 operating quality gate provenance"
+  expected_paths:
+    - _agent/semantic/eval-42-topic.md
+- id: q143
+  query: "r0eval43 GB10 quality gate provenance"
+  expected_paths:
+    - projects/eval-43-topic.md
+- id: q144
+  query: "r0eval44 workflow quality gate provenance"
+  expected_paths:
+    - procedures/eval-44-topic.md
+- id: q145
+  query: "r0eval45 memory quality gate provenance"
+  expected_paths:
+    - concepts/eval-45-topic.md
+- id: q146
+  query: "r0eval46 tool quality gate provenance"
+  expected_paths:
+    - entities/eval-46-topic.md
+- id: q147
+  query: "r0eval47 decision quality gate provenance"
+  expected_paths:
+    - sessions/summaries/eval-47-topic.md
+- id: q148
+  query: "r0eval48 operating quality gate provenance"
+  expected_paths:
+    - _agent/semantic/eval-48-topic.md
+- id: q149
+  query: "r0eval49 GB10 quality gate provenance"
+  expected_paths:
+    - projects/eval-49-topic.md
+- id: q150
+  query: "r0eval50 workflow quality gate provenance"
+  expected_paths:
+    - procedures/eval-50-topic.md
+- id: q151
+  query: "r0eval51 memory quality gate provenance"
+  expected_paths:
+    - concepts/eval-51-topic.md
+- id: q152
+  query: "r0eval52 tool quality gate provenance"
+  expected_paths:
+    - entities/eval-52-topic.md
+- id: q153
+  query: "r0eval53 decision quality gate provenance"
+  expected_paths:
+    - sessions/summaries/eval-53-topic.md
+- id: q154
+  query: "r0eval54 operating quality gate provenance"
+  expected_paths:
+    - _agent/semantic/eval-54-topic.md
+- id: q155
+  query: "r0eval55 GB10 quality gate provenance"
+  expected_paths:
+    - projects/eval-55-topic.md
+- id: q156
+  query: "r0eval56 workflow quality gate provenance"
+  expected_paths:
+    - procedures/eval-56-topic.md
+- id: q157
+  query: "r0eval57 memory quality gate provenance"
+  expected_paths:
+    - concepts/eval-57-topic.md
+- id: q158
+  query: "r0eval58 tool quality gate provenance"
+  expected_paths:
+    - entities/eval-58-topic.md
+- id: q159
+  query: "r0eval59 decision quality gate provenance"
+  expected_paths:
+    - sessions/summaries/eval-59-topic.md
+- id: q160
+  query: "r0eval60 operating quality gate provenance"
+  expected_paths:
+    - _agent/semantic/eval-60-topic.md

@@ -1,0 +1,43 @@
+{
+  "name": "r0b0tlabbra1n-brain",
+  "version": "0.1.0",
+  "transport": "stdio-json",
+  "entrypoint": "python mcp_server/brain_mcp.py serve",
+  "description": "MCP-style stdio JSON-RPC facade for r0b0tlabbra1n brain vault search, lint, and retrieval evaluation.",
+  "tools": [
+    {
+      "name": "brain_search",
+      "description": "Search a r0b0tlabbra1n vault and return ranked memory results.",
+      "inputSchema": {
+        "type": "object",
+        "required": ["vault", "query"],
+        "properties": {
+          "vault": {"type": "string"},
+          "query": {"type": "string"},
+          "budget": {"type": "integer", "default": 2000}
+        }
+      }
+    },
+    {
+      "name": "brain_lint",
+      "description": "Lint a vault for frontmatter, wikilink, and secret issues.",
+      "inputSchema": {
+        "type": "object",
+        "required": ["vault"],
+        "properties": {"vault": {"type": "string"}}
+      }
+    },
+    {
+      "name": "brain_eval",
+      "description": "Run retrieval evaluation against a gold query YAML file.",
+      "inputSchema": {
+        "type": "object",
+        "required": ["vault", "gold"],
+        "properties": {
+          "vault": {"type": "string"},
+          "gold": {"type": "string"}
+        }
+      }
+    }
+  ]
+}
