@@ -25,8 +25,8 @@ Thumbs.db
 
 # Brain vaults (user data)
 # Default vault location is ~/my-brain — not in repo
-vault/
-raw/
+/vault/
+/raw/
 
 # SQLite databases
 *.sqlite

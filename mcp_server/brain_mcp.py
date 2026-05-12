@@ -64,7 +64,9 @@ def call_tool(name: str, arguments: dict[str, Any]) -> dict:
         vault = Path(arguments["vault"])
         query = str(arguments["query"])
         budget = int(arguments.get("budget", 2000))
-        return _tool_result(retrieve(BrainIndex(vault), query, budget=budget))
+        index = BrainIndex(vault)
+        index.rebuild()
+        return _tool_result(retrieve(index, query, budget=budget))
     if name == "brain_lint":
         return _tool_result(lint_vault(Path(arguments["vault"])))
     if name == "brain_eval":
